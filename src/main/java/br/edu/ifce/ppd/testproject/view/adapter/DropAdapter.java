@@ -1,14 +1,11 @@
-package br.edu.ifce.ppd.testproject.adapter;
+package br.edu.ifce.ppd.testproject.view.adapter;
 
 import br.edu.ifce.ppd.testproject.view.ViewTestDragDrop;
-import br.edu.ifce.ppd.testproject.view.custom.Draggable;
+import br.edu.ifce.ppd.testproject.view.custom.SpotView;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.IOException;
@@ -29,13 +26,11 @@ public class DropAdapter extends DropTarget {
         Transferable transferable = event.getTransferable();
 
         try {
-            String name = (String) transferable.getTransferData(transferable.getTransferDataFlavors()[0]);
-            JLabel droppable = (JLabel) this.getComponent();
-            JLabel draggable = (JLabel) viewTestDragDrop.findByName(name);
+            String name = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+            SpotView droppable = (SpotView) this.getComponent();
+            SpotView draggable = (SpotView) viewTestDragDrop.findByName(name);
 
-            droppable.setText(draggable.getText());
-            ((Draggable) draggable).dropped();
-
+            draggable.dropped();
         } catch (UnsupportedFlavorException | IOException e) {
             e.printStackTrace();
         }

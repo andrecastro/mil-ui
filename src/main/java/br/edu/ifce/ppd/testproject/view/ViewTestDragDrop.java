@@ -1,13 +1,18 @@
 package br.edu.ifce.ppd.testproject.view;
 
-import br.edu.ifce.ppd.testproject.adapter.BoardDropTarget;
-import br.edu.ifce.ppd.testproject.adapter.DropAdapter;
-import br.edu.ifce.ppd.testproject.adapter.MouseDragAdapter;
-import br.edu.ifce.ppd.testproject.view.custom.CustomLabel;
+import br.edu.ifce.ppd.testproject.view.adapter.DragAdapter;
+import br.edu.ifce.ppd.testproject.view.adapter.DropAdapter;
+import br.edu.ifce.ppd.testproject.view.custom.SpotView;
+import javafx.animation.Animation;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.dnd.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DropTarget;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 
 import static java.util.Arrays.asList;
 
@@ -16,15 +21,15 @@ import static java.util.Arrays.asList;
  */
 public class ViewTestDragDrop extends JFrame {
 
-    private CustomLabel drop;
-    private CustomLabel drag;
+    private SpotView drop;
+    private SpotView drag;
+    private SpotView drag1;
 
     public ViewTestDragDrop() {
         init();
     }
 
     private void init() {
-        setSize(700, 500);
         setLayout(new BorderLayout());
 
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("drag.png"));
@@ -32,23 +37,35 @@ public class ViewTestDragDrop extends JFrame {
         TransferHandler th = new TransferHandler("name");
         th.setDragImage(imageIcon.getImage());
 
-
-        drop = new CustomLabel("Drop");
+        drop = new SpotView();
         drop.setName("drop");
         drop.setBackground(Color.black);
         drop.setPreferredSize(new Dimension(700, 200));
         drop.setDropTarget(new DropAdapter(this));
 
-        drag = new CustomLabel("Drag");
+        drag = new SpotView();
         drag.setName("drag");
-        drag.setAutoscrolls(false);
-        drag.addMouseListener(new MouseDragAdapter());
-        drag.setTransferHandler(th);
+
+        drag1 = new SpotView();
+        drag1.setName("drag1");
+
+        DragSource dragSource = new DragSource();
+        DragAdapter adapter = new DragAdapter();
+        dragSource.addDragSourceListener(adapter);
+
+        dragSource.createDefaultDragGestureRecognizer(drag, DnDConstants.ACTION_COPY, adapter);
+        dragSource.createDefaultDragGestureRecognizer(drag1, DnDConstants.ACTION_COPY, adapter);
+
+
+        JButton startDrag = new JButton("StartDrag");
+
 
         add(drag, BorderLayout.NORTH);
+        add(drag1, BorderLayout.CENTER);
         add(drop, BorderLayout.SOUTH);
+        add(startDrag, BorderLayout.EAST);
 
-        setDropTarget(new BoardDropTarget(this));
+        pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
