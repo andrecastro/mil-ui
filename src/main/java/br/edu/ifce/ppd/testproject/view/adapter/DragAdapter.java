@@ -2,10 +2,8 @@ package br.edu.ifce.ppd.testproject.view.adapter;
 
 
 import br.edu.ifce.ppd.testproject.controller.GameController;
-import br.edu.ifce.ppd.testproject.view.custom.DragDropState;
+import br.edu.ifce.ppd.testproject.view.SpotView;
 import br.edu.ifce.ppd.testproject.view.custom.Draggable;
-import br.edu.ifce.ppd.testproject.view.custom.SpotView;
-import br.edu.ifce.ppd.tria.core.model.GameStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +44,7 @@ public class DragAdapter implements DragGestureListener, DragSourceListener {
             ImageIcon dragImage = spotView.currentImage();
             spotView.dragging();
             event.startDrag(cursor, dragImage.getImage(), new Point(-12, -12),
-                    new StringSelection(spotView.getName()), this);
+                    new StringSelection(spotView.getName()), null);
         }
     }
 

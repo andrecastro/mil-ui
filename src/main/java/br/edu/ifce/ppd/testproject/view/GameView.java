@@ -14,18 +14,35 @@ public class GameView extends JPanel {
     private ChatView chatView;
     private BoardView boardView;
 
+    private PiecesView playerOnePiecesView;
+    private PiecesView playerTwoPiecesView;
+
+    private GameButtonsView gameButtonsView;
+
+    private GameController gameController;
+
     public GameView(GameController gameController) {
-        init(gameController);
+        this.gameController = gameController;
+        init();
     }
 
-    private void init(GameController gameController) {
+    private void init() {
         boardView = new BoardView(gameController);
         chatView = new ChatView(gameController);
+        playerOnePiecesView = new PiecesView(gameController.currentGame().getFirstPlayer());
+        playerTwoPiecesView = new PiecesView(gameController.currentGame().getSecondPlayer());
+        gameButtonsView = new GameButtonsView(gameController);
 
         setBorder(BorderFactory.createTitledBorder(gameController.currentGame().getAlias()));
         setLayout(new BorderLayout());
 
-        add(boardView, BorderLayout.WEST);
+        JPanel boardPanel = new JPanel(new BorderLayout());
+        boardPanel.add(playerOnePiecesView, BorderLayout.WEST);
+        boardPanel.add(boardView, BorderLayout.CENTER);
+        boardPanel.add(playerTwoPiecesView, BorderLayout.EAST);
+        boardPanel.add(gameButtonsView, BorderLayout.SOUTH);
+
+        add(boardPanel, BorderLayout.WEST);
         add(chatView, BorderLayout.EAST);
 
         setVisible(true);
@@ -35,6 +52,8 @@ public class GameView extends JPanel {
 
     public void updateBoarView() {
         this.boardView.update();
+        this.playerOnePiecesView.update(gameController.currentGame().getFirstPlayer());
+        this.playerTwoPiecesView.update(gameController.currentGame().getSecondPlayer());
         this.repaint();
         this.revalidate();
     }

@@ -7,12 +7,17 @@ import br.edu.ifce.ppd.testproject.view.GameView;
 import br.edu.ifce.ppd.testproject.view.ListGamesView;
 import br.edu.ifce.ppd.tria.core.model.Game;
 import br.edu.ifce.ppd.tria.core.model.Player;
+import br.edu.ifce.ppd.tria.core.model.PlayerSelection;
 import br.edu.ifce.ppd.tria.core.service.ChatService;
 import br.edu.ifce.ppd.tria.core.service.GameService;
 
+import javax.swing.*;
 import java.util.List;
 
+import static br.edu.ifce.ppd.testproject.App.client;
 import static br.edu.ifce.ppd.testproject.App.log;
+import static br.edu.ifce.ppd.testproject.App.mainView;
+import static br.edu.ifce.ppd.tria.core.model.PlayerSelection.FIRST_PLAYER;
 
 /**
  * Created by andrecoelho on 2/14/16.
@@ -86,6 +91,7 @@ public class SocketGameController implements GameController {
         log("Placing the piece...");
 
         gameService.putPieceInSpot(null, currentGame.getId(), selectedSpotId);
+        gameView.lockBoardView();
     }
 
     public void answerPutPiece(Game game, Boolean canRemovePiece) {
@@ -105,6 +111,7 @@ public class SocketGameController implements GameController {
         log("Removing piece...");
 
         gameService.removePiece(null, currentGame.getId(), selectedSpotId);
+        gameView.lockBoardView();
     }
 
     public void answerRemovePiece(Game game) {
@@ -112,6 +119,39 @@ public class SocketGameController implements GameController {
 
         updateGameInfo(game);
         gameView.lockBoardView();
+    }
+
+    @Override
+    public void movePiece(Integer fromSpotId, Integer toSpotId) {
+        gameService.movePiece(client, currentGame.getId(), fromSpotId, toSpotId);
+        gameView.lockBoardView();
+    }
+
+    public void answerMovePiece(Game game, Boolean canRemovePiece) {
+        updateGameInfo(game);
+
+        if (canRemovePiece) {
+            log("Congratulations you made a mil! Select an opponent piece to remove...");
+            gameView.unlockBoardView();
+        } else {
+            log("Wait for your opponent to make a play...");
+            gameView.lockBoardView();
+        }
+    }
+
+    @Override
+    public void askToRestartGame() {
+        log("asking to opponent to restart the game");
+
+        gameService.askToRestartGame(null, currentGame.getId());
+    }
+
+    @Override
+    public void giveUp() {
+        log("Giving up");
+
+        gameService.giveUp(null);
+        backToInitialView();
     }
 
     @Override
@@ -129,19 +169,18 @@ public class SocketGameController implements GameController {
         log("Game: " + game.getId() + "...");
         log("Your opponent is " + game.getSecondPlayer().getName() + "...");
 
-        currentGame = game;
+        updateGameInfo(game);
         gameView.unlockBoardView();
         gameView.unlockChatView();
     }
 
     @Override
     public void notifyClose() {
-        log("Your opponent closed the game abruptly");
-
+        JOptionPane.showMessageDialog(gameView, "Your opponent closed the game abruptly.");
         currentPlayer = null;
         currentGame = null;
         gameView = null;
-        App.mainView.backToInitialView();
+        backToInitialView();
     }
 
     @Override
@@ -164,6 +203,68 @@ public class SocketGameController implements GameController {
 
         updateGameInfo(game);
         gameView.unlockBoardView();
+    }
+
+    @Override
+    public void notifyMovePiece(Game game, Boolean yourTurn) {
+        updateGameInfo(game);
+
+        if (yourTurn) {
+            log("Is your turn...");
+            gameView.unlockBoardView();
+        } else {
+            log("Wait for your opponent to make another play...");
+            gameView.lockBoardView();
+        }
+    }
+
+    @Override
+    public void notifyGiveUp() {
+        JOptionPane.showMessageDialog(gameView, "Your opponent gave up. This game will be closed");
+        currentPlayer = null;
+        currentGame = null;
+        gameView = null;
+        backToInitialView();
+    }
+
+    @Override
+    public void notifyAskToRestart() {
+        String message = "Your opponent is asking to restart the game. Do you agree?";
+        int option = JOptionPane.showConfirmDialog(gameView, message, "Confirm", JOptionPane.YES_NO_OPTION);
+
+        if (option == JOptionPane.YES_OPTION) {
+            gameService.restartGame(null, currentGame.getId());
+        }
+    }
+
+    @Override
+    public void notifyRestartGame(Game game) {
+        String message = "The game was restarted";
+        JOptionPane.showMessageDialog(gameView, message);
+
+        updateGameInfo(game);
+
+        if (currentPlayer.getSelection().equals(FIRST_PLAYER)) {
+            log("The game was restarted and now is your turn...");
+            gameView.unlockBoardView();
+        } else {
+            log("The game was restarted...");
+            log("wait for your opponent to make the play...");
+
+            gameView.lockBoardView();
+        }
+    }
+
+    @Override
+    public void notifyWonGame() {
+        JOptionPane.showMessageDialog(gameView, "Congratulations you won the game!!");
+        backToInitialView();
+    }
+
+    @Override
+    public void notifyLostGame() {
+        JOptionPane.showMessageDialog(gameView, "You lost the game! Get better and try again!");
+        backToInitialView();
     }
 
     @Override
@@ -195,5 +296,3 @@ public class SocketGameController implements GameController {
         }
     }
 }
-
-

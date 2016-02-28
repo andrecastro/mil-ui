@@ -19,7 +19,7 @@ public class CreateGameForm extends JPanel {
     private void init() {
         setLayout(new GridLayout(2, 2));
 
-        JLabel aliasLabel = new JLabel("Game alias");
+        JLabel aliasLabel = new JLabel("Game Alias");
         aliasText = new JTextField();
 
         JLabel playerName = new JLabel("Player Name");

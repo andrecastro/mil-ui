@@ -1,5 +1,7 @@
-package br.edu.ifce.ppd.testproject.view.custom;
+package br.edu.ifce.ppd.testproject.view;
 
+import br.edu.ifce.ppd.testproject.view.custom.DragDropState;
+import br.edu.ifce.ppd.testproject.view.custom.Draggable;
 import br.edu.ifce.ppd.testproject.view.helper.Assets;
 import br.edu.ifce.ppd.tria.core.model.Player;
 import br.edu.ifce.ppd.tria.core.model.Spot;
@@ -7,7 +9,7 @@ import br.edu.ifce.ppd.tria.core.model.Spot;
 import javax.swing.*;
 import java.awt.*;
 
-import static br.edu.ifce.ppd.testproject.view.custom.DragDropState.*;
+import static br.edu.ifce.ppd.testproject.view.custom.DragDropState.DRAGGING;
 import static br.edu.ifce.ppd.testproject.view.custom.DragDropState.INITIAL;
 import static br.edu.ifce.ppd.tria.core.model.PlayerSelection.FIRST_PLAYER;
 

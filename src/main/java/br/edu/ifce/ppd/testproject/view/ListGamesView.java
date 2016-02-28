@@ -1,6 +1,5 @@
 package br.edu.ifce.ppd.testproject.view;
 
-import br.edu.ifce.ppd.testproject.App;
 import br.edu.ifce.ppd.testproject.controller.GameController;
 import br.edu.ifce.ppd.testproject.view.custom.GameTableModel;
 import br.edu.ifce.ppd.testproject.view.form.EnterGameForm;
@@ -21,7 +20,7 @@ import static javax.swing.SwingUtilities.getWindowAncestor;
 public class ListGamesView extends JPanel {
 
     private JTable table;
-    private JToolBar buttonsPanel;
+    private JToolBar toolBar;
 
     private List<Game> games;
     private GameController gameController;
@@ -33,7 +32,7 @@ public class ListGamesView extends JPanel {
     }
 
     private void init(List<Game> games) {
-        buttonsPanel = new JToolBar();
+        toolBar = new JToolBar();
 
         JButton back = new JButton("Back");
         back.addActionListener(e -> gameController.backToInitialView());
@@ -41,8 +40,8 @@ public class ListGamesView extends JPanel {
         JButton enterGame = new JButton("Enter Game");
         enterGame.addActionListener(e -> enterGame());
 
-        buttonsPanel.add(back);
-        buttonsPanel.add(enterGame);
+        toolBar.add(back);
+        toolBar.add(enterGame);
 
         GameTableModel tableModel = new GameTableModel(games);
         table = new JTable(tableModel);
@@ -53,7 +52,7 @@ public class ListGamesView extends JPanel {
 
         setPreferredSize(new Dimension(702, 447));
         setLayout(new BorderLayout());
-        add(buttonsPanel, BorderLayout.PAGE_START);
+        add(toolBar, BorderLayout.PAGE_START);
         add(scrollPane, BorderLayout.CENTER);
     }
 

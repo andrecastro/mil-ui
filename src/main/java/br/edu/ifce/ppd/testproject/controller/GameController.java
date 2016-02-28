@@ -20,6 +20,8 @@ public interface GameController {
 
     void sendMessage(String message);
 
+    void giveUp();
+
     void backToInitialView();
 
     void notifySendMessage(String playerName, String message);
@@ -32,7 +34,23 @@ public interface GameController {
 
     void notifyRemovePiece(Game game);
 
+    void notifyMovePiece(Game game, Boolean yourTurn);
+
+    void notifyGiveUp();
+
+    void notifyAskToRestart();
+
+    void notifyRestartGame(Game game);
+
     Player currentPlayer();
 
     Game currentGame();
+
+    void movePiece(Integer fromSpotId, Integer toSpotId);
+
+    void askToRestartGame();
+
+    void notifyWonGame();
+
+    void notifyLostGame();
 }

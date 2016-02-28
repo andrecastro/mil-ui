@@ -44,14 +44,14 @@ public class ChatView extends JPanel {
         textView.setText("");
 
         JScrollPane textViewPanel = new JScrollPane(textView);
-        textViewPanel.setPreferredSize(new Dimension(245, 360));
+        textViewPanel.setPreferredSize(new Dimension(245, 340));
         textViewPanel.setBorder(BorderFactory.createTitledBorder("Chat View"));
 
         textWrite.setWrapStyleWord(true);
         textWrite.setLineWrap(true);
 
         JScrollPane textWritePanel = new JScrollPane(textWrite);
-        textWritePanel.setPreferredSize(new Dimension(245, 50));
+        textWritePanel.setPreferredSize(new Dimension(245, 23));
 
         sendButton.setPreferredSize(new Dimension(250, 37));
         sendButton.addActionListener(e -> sendText());

@@ -29,23 +29,38 @@ public class Route {
         addPath("game-service/idle-games", (body) -> gameController.answerListGames((List<Game>) body.get("idle-games")));
         addPath("game-service/enter-game", (body) -> gameController.answerEnterGame((Game) body.get("game")));
         addPath("game-service/notify-enter-game", (body) -> gameController.notifyEnterGame((Game) body.get("game")));
+        addPath("game-service/remove-piece", (body) -> gameController.answerRemovePiece((Game) body.get("game")));
         addPath("game-service/put-piece", (body) -> {
             gameController.answerPutPiece((Game) body.get("game"), (Boolean) body.get("can-remove-piece"));
         });
-        addPath("game-service/remove-piece", (body) -> {
-            gameController.answerRemovePiece((Game) body.get("game"));
+        addPath("game-service/move-piece", (body) -> {
+            gameController.answerMovePiece((Game) body.get("game"), (Boolean) body.get("can-remove-piece"));
         });
+        addPath("game-service/won-game", (body) -> {
+            gameController.notifyWonGame();
+        });
+        addPath("game-service/lost-game", (body) -> {
+            gameController.notifyLostGame();
+        });
+
         addPath("game-service/notify-put-piece", (body) -> {
             gameController.notifyPutPiece((Game) body.get("game"), (Boolean) body.get("your-turn"));
         });
         addPath("game-service/notify-remove-piece", (body) -> {
             gameController.notifyRemovePiece((Game) body.get("game"));
         });
+        addPath("game-service/notify-move-piece", (body) -> {
+            gameController.notifyMovePiece((Game) body.get("game"), (Boolean) body.get("your-turn"));
+        });
+        addPath("game-service/notify-give-up", (body) -> gameController.notifyGiveUp());
+
+        addPath("game-service/notify-ask-to-restart", (body) -> gameController.notifyAskToRestart());
+
+        addPath("game-service/notify-restart-game", (body) -> gameController.notifyRestartGame((Game) body.get("game")));
 
         addPath("chat-service/notify-send-message", (body) -> {
             gameController.notifySendMessage((String) body.get("player-name"), (String) body.get("message"));
         });
-
     }
 
     private void addPath(String path, RouteExecutor routeExecutor) {

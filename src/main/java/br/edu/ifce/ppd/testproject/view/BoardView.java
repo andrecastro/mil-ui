@@ -3,14 +3,12 @@ package br.edu.ifce.ppd.testproject.view;
 import br.edu.ifce.ppd.testproject.controller.GameController;
 import br.edu.ifce.ppd.testproject.view.adapter.DragAdapter;
 import br.edu.ifce.ppd.testproject.view.adapter.DropAdapter;
-import br.edu.ifce.ppd.testproject.view.custom.SpotView;
 import br.edu.ifce.ppd.testproject.view.helper.Assets;
 import br.edu.ifce.ppd.tria.core.model.Game;
 import br.edu.ifce.ppd.tria.core.model.Spot;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
 import java.util.HashMap;
 
@@ -58,7 +56,7 @@ public class BoardView extends JPanel {
         createSpotView();
         placeSpotView();
 
-        setPreferredSize(new Dimension(460, 447));
+        setPreferredSize(new Dimension(450, 400));
     }
 
     private void createSpotView() {

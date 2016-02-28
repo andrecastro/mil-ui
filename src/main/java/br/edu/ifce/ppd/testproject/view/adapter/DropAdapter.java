@@ -2,8 +2,7 @@ package br.edu.ifce.ppd.testproject.view.adapter;
 
 import br.edu.ifce.ppd.testproject.controller.GameController;
 import br.edu.ifce.ppd.testproject.view.BoardView;
-import br.edu.ifce.ppd.testproject.view.ViewTestDragDrop;
-import br.edu.ifce.ppd.testproject.view.custom.SpotView;
+import br.edu.ifce.ppd.testproject.view.SpotView;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -62,8 +61,13 @@ public class DropAdapter extends DropTarget {
         SpotView draggable = boardView.findById(name);
 
         if (isDropPermitted(droppable, draggable)) {
+
+            Integer idFrom = draggable.getId();
+            Integer idTo = droppable.getId();
+
             droppable.updateWith(draggable);
             draggable.dropped();
+            gameController.movePiece(idFrom, idTo);
         } else {
             event.rejectDrop();
         }

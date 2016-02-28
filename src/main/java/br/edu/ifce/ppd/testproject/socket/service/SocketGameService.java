@@ -5,6 +5,8 @@ import br.edu.ifce.ppd.tria.core.model.Client;
 import br.edu.ifce.ppd.tria.core.protocol.Action;
 import br.edu.ifce.ppd.tria.core.service.GameService;
 
+import java.io.Serializable;
+
 import static br.edu.ifce.ppd.tria.core.protocol.helper.ActionBuilder.anAction;
 
 /**
@@ -69,5 +71,46 @@ public class SocketGameService implements GameService {
                 .build();
 
         return socketClient.sendAction(removePiece);
+    }
+
+    @Override
+    public Action movePiece(Client client, String gameId, Integer fromSpotId, Integer toSpotId) {
+        Action movePiece = anAction()
+                .to("game-service/move-piece")
+                .withParamValue("game-id", gameId)
+                .withParamValue("from-spot-id", fromSpotId)
+                .withParamValue("to-spot-id", toSpotId)
+                .build();
+
+        return socketClient.sendAction(movePiece);
+    }
+
+    @Override
+    public Action giveUp(Client client) {
+        Action giveUp = anAction()
+                .to("game-service/give-up")
+                .build();
+
+        return socketClient.sendAction(giveUp);
+    }
+
+    @Override
+    public Action askToRestartGame(Client client, String gameId) {
+        Action askToRestartGame = anAction()
+                .to("game-service/ask-to-restart")
+                .withParamValue("game-id", gameId)
+                .build();
+
+        return socketClient.sendAction(askToRestartGame);
+    }
+
+    @Override
+    public Action restartGame(Client client, String gameId) {
+        Action restartGame = anAction()
+                .to("game-service/restart-game")
+                .withParamValue("game-id", gameId)
+                .build();
+
+        return socketClient.sendAction(restartGame);
     }
 }

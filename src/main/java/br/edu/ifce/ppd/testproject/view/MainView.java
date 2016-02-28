@@ -13,7 +13,7 @@ import java.awt.*;
 public class MainView extends JFrame {
 
     private JPanel currentView;
-    ButtonsView buttonsView;
+    private ButtonsView buttonsView;
     private LogView logView;
 
     public MainView(GameController gameController) {
@@ -34,7 +34,7 @@ public class MainView extends JFrame {
 
         new Thread(() -> { handleLog(); }).start();
 
-        setSize(new Dimension(730, 647));
+        setSize(new Dimension(830, 630));
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);

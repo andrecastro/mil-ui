@@ -17,7 +17,7 @@ public class EnterGameForm extends JPanel {
     }
 
     private void init() {
-        playerLabel = new JLabel("Player name");
+        playerLabel = new JLabel("Player Name");
         playerText = new JTextField();
         playerText.setPreferredSize(new Dimension(150, 30));
 
