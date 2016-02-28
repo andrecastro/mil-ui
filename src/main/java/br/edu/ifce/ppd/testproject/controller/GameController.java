@@ -14,6 +14,10 @@ public interface GameController {
 
     void lisGames();
 
+    void putPiece(Integer selectedSpotId);
+
+    void removePiece(Integer selectedSpotId);
+
     void sendMessage(String message);
 
     void backToInitialView();
@@ -22,11 +26,13 @@ public interface GameController {
 
     void notifyEnterGame(Game game);
 
-    Player currentPlayer();
-
-    Game currentGame();
-
     void notifyClose();
 
     void notifyPutPiece(Game game, Boolean yourTurn);
+
+    void notifyRemovePiece(Game game);
+
+    Player currentPlayer();
+
+    Game currentGame();
 }

@@ -26,7 +26,6 @@ public class SocketGameController implements GameController {
     private volatile Game currentGame;
     private volatile Player currentPlayer;
 
-
     public SocketGameController(GameService gameService, ChatService chatService) {
         this.gameService = gameService;
         this.chatService = chatService;
@@ -82,17 +81,37 @@ public class SocketGameController implements GameController {
         App.mainView.updateCurrentView(gameView);
     }
 
-    public void putPiece() {
+    @Override
+    public void putPiece(Integer selectedSpotId) {
+        log("Placing the piece...");
 
+        gameService.putPieceInSpot(null, currentGame.getId(), selectedSpotId);
     }
 
-    public void answerPutPiece(Game game, Boolean canRemovePice) {
+    public void answerPutPiece(Game game, Boolean canRemovePiece) {
         updateGameInfo(game);
 
-        if (canRemovePice) {
-            log("Congratulation you made a mil! Select an opponent piece to remove");
+        if (canRemovePiece) {
+            log("Congratulations you made a mil! Select an opponent piece to remove...");
             gameView.unlockBoardView();
+        } else {
+            log("Wait for your opponent to make a play...");
+            gameView.lockBoardView();
         }
+    }
+
+    @Override
+    public void removePiece(Integer selectedSpotId) {
+        log("Removing piece...");
+
+        gameService.removePiece(null, currentGame.getId(), selectedSpotId);
+    }
+
+    public void answerRemovePiece(Game game) {
+        log("Piece removed");
+
+        updateGameInfo(game);
+        gameView.lockBoardView();
     }
 
     @Override
@@ -129,15 +148,23 @@ public class SocketGameController implements GameController {
     public void notifyPutPiece(Game game, Boolean yourTurn) {
         updateGameInfo(game);
 
-        // update board
-
         if (yourTurn) {
+            log("Is your turn...");
             gameView.unlockBoardView();
         } else {
-            log("Wait for your opponent to make another play");
+            log("Wait for your opponent to make another play...");
+            gameView.lockBoardView();
         }
     }
 
+    @Override
+    public void notifyRemovePiece(Game game) {
+        log("You lost a piece...");
+        log("Now is your turn...");
+
+        updateGameInfo(game);
+        gameView.unlockBoardView();
+    }
 
     @Override
     public void backToInitialView() {
@@ -154,10 +181,10 @@ public class SocketGameController implements GameController {
         return currentGame;
     }
 
-
     private void updateGameInfo(Game game) {
         this.currentGame = game;
         updateCurrentPlayer();
+        gameView.updateBoarView();
     }
 
     private void updateCurrentPlayer() {

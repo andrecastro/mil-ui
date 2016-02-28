@@ -33,6 +33,12 @@ public class GameView extends JPanel {
         lockChatView();
     }
 
+    public void updateBoarView() {
+        this.boardView.update();
+        this.repaint();
+        this.revalidate();
+    }
+
     public void lockBoardView() {
         enableComponents(boardView, false);
     }
@@ -49,6 +55,10 @@ public class GameView extends JPanel {
         enableComponents(chatView, true);
     }
 
+    public void messageToChat(String playerName, String message) {
+        chatView.updateViewText(playerName, message);
+    }
+
     // Recursively disable or enable all components
     // http://stackoverflow.com/questions/10985734/java-swing-enabling-disabling-all-components-in-jpanel
     private void enableComponents(Container container, boolean enable) {
@@ -59,10 +69,5 @@ public class GameView extends JPanel {
                 enableComponents((Container)component, enable);
             }
         }
-    }
-
-
-    public void messageToChat(String playerName, String message) {
-        chatView.updateViewText(playerName, message);
     }
 }

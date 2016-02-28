@@ -32,8 +32,14 @@ public class Route {
         addPath("game-service/put-piece", (body) -> {
             gameController.answerPutPiece((Game) body.get("game"), (Boolean) body.get("can-remove-piece"));
         });
+        addPath("game-service/remove-piece", (body) -> {
+            gameController.answerRemovePiece((Game) body.get("game"));
+        });
         addPath("game-service/notify-put-piece", (body) -> {
             gameController.notifyPutPiece((Game) body.get("game"), (Boolean) body.get("your-turn"));
+        });
+        addPath("game-service/notify-remove-piece", (body) -> {
+            gameController.notifyRemovePiece((Game) body.get("game"));
         });
 
         addPath("chat-service/notify-send-message", (body) -> {
@@ -47,7 +53,9 @@ public class Route {
     }
 
     public void to(Action action) {
-        configuredRoutes.get(action.getPath()).execute(action.getBody());
-    }
+        RouteExecutor executor = configuredRoutes.get(action.getPath());
 
+        if (executor != null)
+            executor.execute(action.getBody());
+    }
 }

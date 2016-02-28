@@ -1,5 +1,7 @@
 package br.edu.ifce.ppd.testproject.view.adapter;
 
+import br.edu.ifce.ppd.testproject.controller.GameController;
+import br.edu.ifce.ppd.testproject.view.BoardView;
 import br.edu.ifce.ppd.testproject.view.ViewTestDragDrop;
 import br.edu.ifce.ppd.testproject.view.custom.SpotView;
 
@@ -7,6 +9,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.IOException;
 
@@ -15,25 +18,59 @@ import java.io.IOException;
  */
 public class DropAdapter extends DropTarget {
 
-    private ViewTestDragDrop viewTestDragDrop;
+    private BoardView boardView;
+    private GameController gameController;
 
-    public DropAdapter(ViewTestDragDrop viewTestDragDrop) {
-        this.viewTestDragDrop = viewTestDragDrop;
+    public DropAdapter(BoardView boardView, GameController gameController) {
+        this.boardView = boardView;
+        this.gameController = gameController;
+    }
+
+    @Override
+    public synchronized void dragOver(DropTargetDragEvent event) {
+        Transferable transferable = event.getTransferable();
+        String name = null;
+
+        try {
+            name = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+        } catch (UnsupportedFlavorException | IOException e) {
+            e.printStackTrace();
+        }
+
+        SpotView droppable = (SpotView) this.getComponent();
+        SpotView draggable = boardView.findById(name);
+
+        if (isDropPermitted(droppable, draggable)) {
+            super.dragOver(event);
+        } else {
+            event.rejectDrag();
+        }
     }
 
     @Override
     public void drop(DropTargetDropEvent event) {
         Transferable transferable = event.getTransferable();
+        String name = null;
 
         try {
-            String name = (String) transferable.getTransferData(DataFlavor.stringFlavor);
-            SpotView droppable = (SpotView) this.getComponent();
-            SpotView draggable = (SpotView) viewTestDragDrop.findByName(name);
-
-            draggable.dropped();
+            name = (String) transferable.getTransferData(DataFlavor.stringFlavor);
         } catch (UnsupportedFlavorException | IOException e) {
             e.printStackTrace();
         }
+
+        SpotView droppable = (SpotView) this.getComponent();
+        SpotView draggable = boardView.findById(name);
+
+        if (isDropPermitted(droppable, draggable)) {
+            droppable.updateWith(draggable);
+            draggable.dropped();
+        } else {
+            event.rejectDrop();
+        }
     }
 
+    private boolean isDropPermitted(SpotView droppable, SpotView draggable) {
+        return (gameController.currentPlayer().getNumberOfPieces().equals(3) || draggable.isPossiblePath(droppable))
+                && !droppable.hasPiece();
+    }
 }

@@ -34,41 +34,41 @@ public class ViewTestDragDrop extends JFrame {
 
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("drag.png"));
 
-        TransferHandler th = new TransferHandler("name");
-        th.setDragImage(imageIcon.getImage());
+//        TransferHandler th = new TransferHandler("name");
+//        th.setDragImage(imageIcon.getImage());
 
-        drop = new SpotView();
-        drop.setName("drop");
-        drop.setBackground(Color.black);
-        drop.setPreferredSize(new Dimension(700, 200));
-        drop.setDropTarget(new DropAdapter(this));
-
-        drag = new SpotView();
-        drag.setName("drag");
-
-        drag1 = new SpotView();
-        drag1.setName("drag1");
-
-        DragSource dragSource = new DragSource();
-        DragAdapter adapter = new DragAdapter();
-        dragSource.addDragSourceListener(adapter);
-
-        dragSource.createDefaultDragGestureRecognizer(drag, DnDConstants.ACTION_COPY, adapter);
-        dragSource.createDefaultDragGestureRecognizer(drag1, DnDConstants.ACTION_COPY, adapter);
-
-
-        JButton startDrag = new JButton("StartDrag");
-
-
-        add(drag, BorderLayout.NORTH);
-        add(drag1, BorderLayout.CENTER);
-        add(drop, BorderLayout.SOUTH);
-        add(startDrag, BorderLayout.EAST);
-
-        pack();
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setVisible(true);
+//        drop = new SpotView();
+//        drop.setName("drop");
+//        drop.setBackground(Color.black);
+//        drop.setPreferredSize(new Dimension(700, 200));
+//        drop.setDropTarget();
+//
+//        drag = new SpotView();
+//        drag.setName("drag");
+//
+//        drag1 = new SpotView();
+//        drag1.setName("drag1");
+//
+//        DragSource dragSource = new DragSource();
+//        DragAdapter adapter = new DragAdapter();
+//        dragSource.addDragSourceListener(adapter);
+//
+//        dragSource.createDefaultDragGestureRecognizer(drag, DnDConstants.ACTION_COPY, adapter);
+//        dragSource.createDefaultDragGestureRecognizer(drag1, DnDConstants.ACTION_COPY, adapter);
+//
+//
+//        JButton startDrag = new JButton("StartDrag");
+//
+//
+//        add(drag, BorderLayout.NORTH);
+//        add(drag1, BorderLayout.CENTER);
+//        add(drop, BorderLayout.SOUTH);
+//        add(startDrag, BorderLayout.EAST);
+//
+//        pack();
+//        setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        setLocationRelativeTo(null);
+//        setVisible(true);
 
     }
 

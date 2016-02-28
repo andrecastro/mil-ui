@@ -5,6 +5,5 @@ package br.edu.ifce.ppd.testproject.view.custom;
  */
 public enum DragDropState {
     INITIAL,
-    DRAGGING,
-    DROPPED
+    DRAGGING
 }

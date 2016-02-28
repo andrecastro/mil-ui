@@ -23,6 +23,7 @@ public class SocketGameService implements GameService {
         Action retrieveIdleGames = anAction()
                 .to("game-service/idle-games")
                 .build();
+
         return  socketClient.sendAction(retrieveIdleGames);
     }
 
@@ -46,5 +47,27 @@ public class SocketGameService implements GameService {
                 .build();
 
         return socketClient.sendAction(createGame);
+    }
+
+    @Override
+    public Action putPieceInSpot(Client client, String gameId, Integer selectedSpotId) {
+        Action putPieceInSpot = anAction()
+                .to("game-service/put-piece-in-spot")
+                .withParamValue("game-id", gameId)
+                .withParamValue("selected-spot-id", selectedSpotId)
+                .build();
+
+        return socketClient.sendAction(putPieceInSpot);
+    }
+
+    @Override
+    public Action removePiece(Client client, String gameId, Integer selectedSpotId) {
+        Action removePiece = anAction()
+                .to("game-service/remove-piece")
+                .withParamValue("game-id", gameId)
+                .withParamValue("selected-spot-id", selectedSpotId)
+                .build();
+
+        return socketClient.sendAction(removePiece);
     }
 }

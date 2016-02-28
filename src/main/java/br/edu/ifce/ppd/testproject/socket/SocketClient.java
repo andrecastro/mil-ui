@@ -79,7 +79,7 @@ public class SocketClient {
     private void handleWrite() {
         try {
             while (!writeQueue.isEmpty()) {
-                out.writeObject(writeQueue.poll());
+                out.writeUnshared(writeQueue.poll());
                 out.reset();
             }
         } catch (IOException e) {
@@ -89,11 +89,10 @@ public class SocketClient {
 
     private void handleRead() {
         try {
-            Action action = (Action) in.readObject();
+            Action action = (Action) in.readUnshared();
             route.to(action);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-
 }
