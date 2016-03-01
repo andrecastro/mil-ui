@@ -3,6 +3,7 @@ package br.edu.ifce.ppd.testproject.view;
 
 import br.edu.ifce.ppd.testproject.App;
 import br.edu.ifce.ppd.testproject.controller.GameController;
+import br.edu.ifce.ppd.testproject.view.helper.Assets;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.awt.*;
 public class MainView extends JFrame {
 
     private JPanel currentView;
-    private ButtonsView buttonsView;
+    private MainButtonsView mainButtonsView;
     private LogView logView;
 
     public MainView(GameController gameController) {
@@ -23,8 +24,8 @@ public class MainView extends JFrame {
     private void init(GameController gameController) {
         logView = new LogView();
 
-        buttonsView = new ButtonsView(gameController);
-        currentView = buttonsView;
+        mainButtonsView = new MainButtonsView(gameController);
+        currentView = mainButtonsView;
 
         setLayout(new BorderLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -34,7 +35,9 @@ public class MainView extends JFrame {
 
         new Thread(() -> { handleLog(); }).start();
 
+        setIconImage(Assets.icon());
         setSize(new Dimension(830, 630));
+        setTitle("Mil Game");
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -49,7 +52,7 @@ public class MainView extends JFrame {
     }
 
     public void backToInitialView() {
-        updateCurrentView(buttonsView);
+        updateCurrentView(mainButtonsView);
     }
 
     private void handleLog() {

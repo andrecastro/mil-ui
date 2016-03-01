@@ -1,20 +1,17 @@
 package br.edu.ifce.ppd.testproject.view;
 
 import br.edu.ifce.ppd.testproject.controller.GameController;
+import br.edu.ifce.ppd.testproject.view.helper.Assets;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.StyledDocument;
 import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
-import static javax.swing.BorderFactory.createLineBorder;
-import static javax.swing.BorderFactory.createTitledBorder;
-import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 
 /**
  * Created by andrecoelho on 2/14/16.
@@ -25,7 +22,7 @@ public class ChatView extends JPanel {
 
     private JTextPane textView;
     private JTextArea textWrite;
-    private Button sendButton;
+    private JButton sendButton;
 
     private String messageTemplate = "<p style=\"padding: 5px; border-bottom: 1px solid black; width: 180px\"><b>%s: </b> %s</p>";
 
@@ -37,7 +34,7 @@ public class ChatView extends JPanel {
     private void init() {
         textView = new JTextPane();
         textWrite = new JTextArea();
-        sendButton = new Button("Send");
+        sendButton = new JButton("Send", Assets.chat());
 
         textView.setEditable(false);
         textView.setContentType("text/html");
@@ -49,6 +46,15 @@ public class ChatView extends JPanel {
 
         textWrite.setWrapStyleWord(true);
         textWrite.setLineWrap(true);
+        textWrite.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                    sendText();
+                }
+            }
+        });
 
         JScrollPane textWritePanel = new JScrollPane(textWrite);
         textWritePanel.setPreferredSize(new Dimension(245, 23));

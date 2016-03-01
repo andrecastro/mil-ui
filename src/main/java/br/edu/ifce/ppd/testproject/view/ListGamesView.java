@@ -3,12 +3,14 @@ package br.edu.ifce.ppd.testproject.view;
 import br.edu.ifce.ppd.testproject.controller.GameController;
 import br.edu.ifce.ppd.testproject.view.custom.GameTableModel;
 import br.edu.ifce.ppd.testproject.view.form.EnterGameForm;
+import br.edu.ifce.ppd.testproject.view.helper.Assets;
 import br.edu.ifce.ppd.tria.core.model.Game;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
@@ -33,11 +35,12 @@ public class ListGamesView extends JPanel {
 
     private void init(List<Game> games) {
         toolBar = new JToolBar();
+        toolBar.setFloatable(false);
 
-        JButton back = new JButton("Back");
+        JButton back = new JButton("Back", Assets.back());
         back.addActionListener(e -> gameController.backToInitialView());
 
-        JButton enterGame = new JButton("Enter Game");
+        JButton enterGame = new JButton("Enter Game", Assets.enter());
         enterGame.addActionListener(e -> enterGame());
 
         toolBar.add(back);
@@ -60,7 +63,8 @@ public class ListGamesView extends JPanel {
         int selectedRow = table.getSelectedRow();
 
         if (selectedRow < 0) {
-            JOptionPane.showMessageDialog(this, "Select a row in the table");
+            JOptionPane.showMessageDialog(this, "Select a row in the table", "Information",
+                    INFORMATION_MESSAGE, Assets.info());
             return;
         }
 
@@ -71,7 +75,8 @@ public class ListGamesView extends JPanel {
                 form,
                 "Enter Data",
                 OK_CANCEL_OPTION,
-                QUESTION_MESSAGE);
+                QUESTION_MESSAGE,
+                Assets.question());
 
         if (button == JOptionPane.OK_OPTION) {
             if (!form.hasPlayerName()) {

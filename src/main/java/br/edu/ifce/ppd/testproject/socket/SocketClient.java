@@ -1,5 +1,6 @@
 package br.edu.ifce.ppd.testproject.socket;
 
+import br.edu.ifce.ppd.testproject.App;
 import br.edu.ifce.ppd.tria.core.protocol.Action;
 
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import static br.edu.ifce.ppd.testproject.App.log;
 
 /**
  * Created by andrecoelho on 2/20/16.
@@ -53,8 +56,10 @@ public class SocketClient {
     }
 
     public Action sendAction(Action action) {
-        if (writeQueue == null)
-            throw new RuntimeException("Impossible to communicate with server...");
+        if (writeQueue == null) {
+            log("Impossible to communicate with server...");
+            return null;
+        }
         writeQueue.offer(action);
         return action;
     }

@@ -4,6 +4,7 @@ package br.edu.ifce.ppd.testproject.view;
 import br.edu.ifce.ppd.testproject.controller.GameController;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 
 /**

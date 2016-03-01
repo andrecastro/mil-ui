@@ -5,6 +5,7 @@ import br.edu.ifce.ppd.testproject.App;
 import br.edu.ifce.ppd.testproject.controller.GameController;
 import br.edu.ifce.ppd.testproject.view.GameView;
 import br.edu.ifce.ppd.testproject.view.ListGamesView;
+import br.edu.ifce.ppd.testproject.view.helper.Assets;
 import br.edu.ifce.ppd.tria.core.model.Game;
 import br.edu.ifce.ppd.tria.core.model.Player;
 import br.edu.ifce.ppd.tria.core.model.PlayerSelection;
@@ -18,6 +19,9 @@ import static br.edu.ifce.ppd.testproject.App.client;
 import static br.edu.ifce.ppd.testproject.App.log;
 import static br.edu.ifce.ppd.testproject.App.mainView;
 import static br.edu.ifce.ppd.tria.core.model.PlayerSelection.FIRST_PLAYER;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 /**
  * Created by andrecoelho on 2/14/16.
@@ -176,7 +180,8 @@ public class SocketGameController implements GameController {
 
     @Override
     public void notifyClose() {
-        JOptionPane.showMessageDialog(gameView, "Your opponent closed the game abruptly.");
+        JOptionPane.showMessageDialog(gameView, "Your opponent closed the game abruptly.",
+                "Information", INFORMATION_MESSAGE, Assets.info());
         currentPlayer = null;
         currentGame = null;
         gameView = null;
@@ -220,7 +225,8 @@ public class SocketGameController implements GameController {
 
     @Override
     public void notifyGiveUp() {
-        JOptionPane.showMessageDialog(gameView, "Your opponent gave up. This game will be closed");
+        JOptionPane.showMessageDialog(gameView, "Your opponent gave up. This game will be closed",
+                "Information", INFORMATION_MESSAGE, Assets.info());
         currentPlayer = null;
         currentGame = null;
         gameView = null;
@@ -230,7 +236,8 @@ public class SocketGameController implements GameController {
     @Override
     public void notifyAskToRestart() {
         String message = "Your opponent is asking to restart the game. Do you agree?";
-        int option = JOptionPane.showConfirmDialog(gameView, message, "Confirm", JOptionPane.YES_NO_OPTION);
+        int option = JOptionPane.showConfirmDialog(gameView, message, "Confirm",
+                YES_NO_OPTION, QUESTION_MESSAGE, Assets.question());
 
         if (option == JOptionPane.YES_OPTION) {
             gameService.restartGame(null, currentGame.getId());
@@ -257,13 +264,15 @@ public class SocketGameController implements GameController {
 
     @Override
     public void notifyWonGame() {
-        JOptionPane.showMessageDialog(gameView, "Congratulations you won the game!!");
+        JOptionPane.showMessageDialog(gameView, "Congratulations you won the game!!",
+                "Information", INFORMATION_MESSAGE, Assets.win());
         backToInitialView();
     }
 
     @Override
     public void notifyLostGame() {
-        JOptionPane.showMessageDialog(gameView, "You lost the game! Get better and try again!");
+        JOptionPane.showMessageDialog(gameView, "You lost the game! Get better and try again!",
+                "Information", INFORMATION_MESSAGE, Assets.lose());
         backToInitialView();
     }
 
