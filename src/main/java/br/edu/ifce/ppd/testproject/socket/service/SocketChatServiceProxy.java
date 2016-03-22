@@ -10,11 +10,11 @@ import static br.edu.ifce.ppd.tria.core.protocol.helper.ActionBuilder.anAction;
 /**
  * Created by andrecoelho on 2/20/16.
  */
-public class SocketChatService implements ChatService {
+public class SocketChatServiceProxy implements ChatService {
 
     private SocketClient socketClient;
 
-    public SocketChatService(SocketClient socketClient) {
+    public SocketChatServiceProxy(SocketClient socketClient) {
         this.socketClient = socketClient;
     }
 

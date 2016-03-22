@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.dnd.DragSource;
 import java.util.HashMap;
 
-import static br.edu.ifce.ppd.testproject.App.log;
+import static br.edu.ifce.ppd.testproject.helper.Logger.*;
 import static java.awt.dnd.DnDConstants.ACTION_COPY;
 import static java.util.Arrays.asList;
 

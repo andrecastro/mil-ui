@@ -8,24 +8,29 @@ import br.edu.ifce.ppd.tria.core.service.RegisterService;
 /**
  * Created by andrecoelho on 2/21/16.
  */
-public class SocketRegisterService implements RegisterService {
+public class SocketRegisterServiceProxy implements RegisterService {
 
     private SocketClient socketClient;
     private Route route;
 
-    public SocketRegisterService(SocketClient socketClient, Route route) {
+    public SocketRegisterServiceProxy(SocketClient socketClient, Route route) {
         this.socketClient = socketClient;
         this.route = route;
     }
 
     @Override
-    public Client register() {
+    public Client register(Client client) {
         String clientId = socketClient.start(route);
 
         if (clientId == null)
             return null;
 
         return new Client(clientId);
+    }
+
+    @Override
+    public Client createClient() {
+        return null;
     }
 
     @Override

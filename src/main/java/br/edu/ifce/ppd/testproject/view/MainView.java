@@ -3,6 +3,7 @@ package br.edu.ifce.ppd.testproject.view;
 
 import br.edu.ifce.ppd.testproject.App;
 import br.edu.ifce.ppd.testproject.controller.GameController;
+import br.edu.ifce.ppd.testproject.helper.Logger;
 import br.edu.ifce.ppd.testproject.view.helper.Assets;
 
 import javax.swing.*;
@@ -57,7 +58,7 @@ public class MainView extends JFrame {
 
     private void handleLog() {
         while (true) {
-            while (App.hasLog()) logView.append(App.dequeueLog() + "\n");
+            while (Logger.hasLog()) logView.append(Logger.dequeueLog() + "\n");
         }
     }
 

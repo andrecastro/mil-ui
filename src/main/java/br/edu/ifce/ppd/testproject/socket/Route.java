@@ -1,8 +1,8 @@
 package br.edu.ifce.ppd.testproject.socket;
 
 
+import br.edu.ifce.ppd.testproject.controller.GameController;
 import br.edu.ifce.ppd.testproject.socket.config.RouteExecutor;
-import br.edu.ifce.ppd.testproject.socket.controller.SocketGameController;
 import br.edu.ifce.ppd.tria.core.model.Game;
 import br.edu.ifce.ppd.tria.core.protocol.Action;
 
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class Route {
 
-    private SocketGameController gameController;
+    private GameController gameController;
     private HashMap<String, RouteExecutor> configuredRoutes;
 
-    public Route(SocketGameController gameController) {
+    public Route(GameController gameController) {
         this.gameController = gameController;
         this.configuredRoutes = new HashMap<>();
         this.configure();
@@ -30,28 +30,12 @@ public class Route {
         addPath("game-service/enter-game", (body) -> gameController.answerEnterGame((Game) body.get("game")));
         addPath("game-service/notify-enter-game", (body) -> gameController.notifyEnterGame((Game) body.get("game")));
         addPath("game-service/remove-piece", (body) -> gameController.answerRemovePiece((Game) body.get("game")));
-        addPath("game-service/put-piece", (body) -> {
-            gameController.answerPutPiece((Game) body.get("game"), (Boolean) body.get("can-remove-piece"));
-        });
-        addPath("game-service/move-piece", (body) -> {
-            gameController.answerMovePiece((Game) body.get("game"), (Boolean) body.get("can-remove-piece"));
-        });
-        addPath("game-service/won-game", (body) -> {
-            gameController.notifyWonGame();
-        });
-        addPath("game-service/lost-game", (body) -> {
-            gameController.notifyLostGame();
-        });
+        addPath("game-service/put-piece", (body) -> gameController.answerPutPiece((Game) body.get("game")));
+        addPath("game-service/move-piece", (body) -> gameController.answerMovePiece((Game) body.get("game")));
 
-        addPath("game-service/notify-put-piece", (body) -> {
-            gameController.notifyPutPiece((Game) body.get("game"), (Boolean) body.get("your-turn"));
-        });
-        addPath("game-service/notify-remove-piece", (body) -> {
-            gameController.notifyRemovePiece((Game) body.get("game"));
-        });
-        addPath("game-service/notify-move-piece", (body) -> {
-            gameController.notifyMovePiece((Game) body.get("game"), (Boolean) body.get("your-turn"));
-        });
+        addPath("game-service/notify-put-piece", (body) -> gameController.notifyPutPiece((Game) body.get("game")));
+        addPath("game-service/notify-remove-piece", (body) -> gameController.notifyRemovePiece((Game) body.get("game")));
+        addPath("game-service/notify-move-piece", (body) -> gameController.notifyMovePiece((Game) body.get("game")));
         addPath("game-service/notify-give-up", (body) -> gameController.notifyGiveUp());
 
         addPath("game-service/notify-ask-to-restart", (body) -> gameController.notifyAskToRestart());

@@ -12,11 +12,11 @@ import static br.edu.ifce.ppd.tria.core.protocol.helper.ActionBuilder.anAction;
 /**
  * Created by andrecoelho on 2/20/16.
  */
-public class SocketGameService implements GameService {
+public class SocketGameServiceProxy implements GameService {
 
     private SocketClient socketClient;
 
-    public SocketGameService(SocketClient socketClient) {
+    public SocketGameServiceProxy(SocketClient socketClient) {
         this.socketClient = socketClient;
     }
 
